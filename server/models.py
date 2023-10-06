@@ -33,8 +33,17 @@ class BakedGood(db.Model, SerializerMixin):
     price = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    description = db.Column(db.String(255), nullable=True)
 
     bakery_id = db.Column(db.Integer, db.ForeignKey('bakeries.id'))
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'description': self.description
+        }
 
     def __repr__(self):
         return f'<Baked Good {self.name}, ${self.price}>'
